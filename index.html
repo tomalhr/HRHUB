@@ -30,9 +30,13 @@ const repoOwner = "tomalhr"; // CHANGE THIS
 const repoName = "hrhub"; // CHANGE THIS
 const branch = "main";
 
-const fileIcons = { 'pdf':'📄','doc':'📝','docx':'📝','xls':'📊','xlsx':'📊','ppt':'📽️','pptx':'📽️','jpg':'🖼️','jpeg':'🖼️','png':'🖼️','gif':'🖼️','default':'📁' };
+const fileIcons = { 
+    'pdf':'📄','doc':'📝','docx':'📝','xls':'📊','xlsx':'📊',
+    'ppt':'📽️','pptx':'📽️','jpg':'🖼️','jpeg':'🖼️','png':'🖼️','gif':'🖼️',
+    'default':'📁' 
+};
 
-let allFiles = [];
+const allFiles = [];
 
 async function fetchFolder(path="") {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}?ref=${branch}`;
@@ -40,38 +44,45 @@ async function fetchFolder(path="") {
     return await res.json();
 }
 
-async function loadFiles() {
-    const items = await fetchFolder("");
-    allFiles = [];
-
-    for(const folder of items.filter(i=>i.type==='dir')) {
-        const files = await fetchFolder(folder.path);
-        allFiles.push({ folder: folder.name, files });
+// Recursive function to go into subfolders
+async function processFolder(path="", parent="") {
+    const items = await fetchFolder(path);
+    for(const item of items) {
+        if(item.type === "dir") {
+            await processFolder(item.path, parent ? parent + "/" + item.name : item.name);
+        } else if(item.type === "file") {
+            allFiles.push({ folder: parent || "Root", name: item.name, url: item.download_url });
+        }
     }
-    displayFiles();
 }
 
 function displayFiles(filter="") {
     const container = document.getElementById("fileList");
     container.innerHTML = "";
+    // Group files by folder
+    const folders = {};
     allFiles.forEach(f=>{
-        const filtered = f.files.filter(file => file.name.toLowerCase().includes(filter.toLowerCase()));
-        if(filtered.length>0){
-            const folderDiv = document.createElement("div");
-            folderDiv.classList.add("folder");
-            folderDiv.textContent = `📁 ${f.folder}`;
-            container.appendChild(folderDiv);
-            const ul = document.createElement("ul");
-            filtered.forEach(file=>{
-                const ext = file.name.split('.').pop().toLowerCase();
-                const icon = fileIcons[ext]||fileIcons.default;
-                const li = document.createElement("li");
-                li.innerHTML = `<span class="icon">${icon}</span> <a href="${file.download_url}" target="_blank">${file.name}</a>`;
-                ul.appendChild(li);
-            });
-            container.appendChild(ul);
+        if(f.name.toLowerCase().includes(filter.toLowerCase())){
+            if(!folders[f.folder]) folders[f.folder] = [];
+            folders[f.folder].push(f);
         }
     });
+    for(const folder in folders){
+        const folderDiv = document.createElement("div");
+        folderDiv.classList.add("folder");
+        folderDiv.textContent = `📁 ${folder}`;
+        container.appendChild(folderDiv);
+
+        const ul = document.createElement("ul");
+        folders[folder].forEach(f=>{
+            const ext = f.name.split('.').pop().toLowerCase();
+            const icon = fileIcons[ext] || fileIcons.default;
+            const li = document.createElement("li");
+            li.innerHTML = `<span class="icon">${icon}</span> <a href="${f.url}" target="_blank">${f.name}</a>`;
+            ul.appendChild(li);
+        });
+        container.appendChild(ul);
+    }
 }
 
 function searchFiles() {
@@ -79,7 +90,13 @@ function searchFiles() {
     displayFiles(query);
 }
 
-loadFiles();
+// Load all files recursively and then display
+(async function init(){
+    allFiles.length = 0; // clear
+    await processFolder(""); // start at root
+    displayFiles();
+})();
+
 </script>
 </body>
 </html>
