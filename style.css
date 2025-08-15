@@ -1,71 +1,60 @@
-/* General Page Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    margin: 0;
-    padding: 0;
-    color: #333;
+    background: #f4f6f8;
+    margin:0; padding:0;
 }
-
-/* Header */
-h1 {
-    text-align: center;
-    background-color: #2c3e50;
-    color: white;
-    padding: 20px;
-    margin: 0;
-    font-size: 26px;
-    letter-spacing: 1px;
+header {
+    background: #2c3e50;
+    color:white;
+    text-align:center;
+    padding:15px;
+    font-size:24px;
+    font-weight:bold;
 }
-
-/* Container */
-#file-list {
-    max-width: 900px;
+.container {
+    max-width: 1000px;
     margin: 20px auto;
     background: white;
-    padding: 15px;
+    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
-
-/* File & Folder Items */
-.file-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 12px;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.2s;
-}
-
-.file-item:hover {
-    background-color: #f0f4f8;
-}
-
-/* File Icons */
-.file-item span {
-    margin-right: 10px;
-    font-size: 20px;
-}
-
-/* File Links */
-.file-item a {
-    text-decoration: none;
-    color: #2c3e50;
-    font-weight: 500;
-}
-
-.file-item a:hover {
-    text-decoration: underline;
-    color: #1abc9c;
-}
-
-/* Folder Styling */
-.folder-name {
-    font-weight: bold;
-    margin-top: 15px;
-    font-size: 18px;
-    border-bottom: 2px solid #2c3e50;
-    padding-bottom: 5px;
+#searchBox {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
     margin-bottom: 10px;
-    color: #2c3e50;
+    border-radius: 6px;
+    border: 1px solid #ccc;
 }
+.button-bar {
+    margin-bottom: 15px;
+}
+button {
+    padding: 8px 12px;
+    margin-right: 8px;
+    border: none;
+    border-radius: 5px;
+    background: #3498db;
+    color: white;
+    cursor: pointer;
+}
+button:hover { background: #1abc9c; }
+.folder {
+    margin: 5px 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #34495e;
+}
+.folder:hover { color:#1abc9c; }
+ul {
+    list-style: none;
+    padding-left: 20px;
+    display: none;
+}
+li {
+    margin: 4px 0;
+}
+a { text-decoration:none; color:#2c3e50; }
+a:hover { text-decoration: underline; color:#1abc9c; }
+.icon { margin-right:8px; }
