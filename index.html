@@ -1,24 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="style.css">
 <meta charset="UTF-8">
 <title>HR Document Hub</title>
 <style>
-body { font-family: Arial; background: #f4f6f8; margin:0; padding:0; }
-header { background: #2c3e50; color:white; text-align:center; padding:15px; font-size:24px; }
-.container { max-width:900px; margin:20px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.1); }
-#searchBox { width:100%; padding:10px; font-size:16px; margin-bottom:15px; border-radius:6px; border:1px solid #ccc; }
-.folder { font-weight:bold; font-size:18px; margin-top:15px; color:#34495e; }
-ul { list-style:none; padding-left:20px; }
-li { margin:6px 0; padding:6px; border-radius:4px; transition:0.2s; }
-li:hover { background:#ecf0f1; }
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin:0; padding:0;
+}
+header {
+    background: #2c3e50;
+    color:white;
+    text-align:center;
+    padding:15px;
+    font-size:24px;
+    font-weight:bold;
+}
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+#searchBox {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Folder Styles */
+.folder {
+    margin: 5px 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #34495e;
+}
+.folder:hover { color:#1abc9c; }
+ul {
+    list-style: none;
+    padding-left: 20px;
+    display: none;
+}
+li {
+    margin: 4px 0;
+}
 a { text-decoration:none; color:#2c3e50; }
-a:hover { text-decoration:underline; color:#1abc9c; }
+a:hover { text-decoration: underline; color:#1abc9c; }
 .icon { margin-right:8px; }
 </style>
 </head>
 <body>
+
 <header>📂 HR Document Hub</header>
 <div class="container">
 <input type="text" id="searchBox" placeholder="Search documents..." onkeyup="searchFiles()">
@@ -36,67 +74,57 @@ const fileIcons = {
     'default':'📁' 
 };
 
-const allFiles = [];
-
 async function fetchFolder(path="") {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}?ref=${branch}`;
     const res = await fetch(url);
     return await res.json();
 }
 
-// Recursive function to go into subfolders
-async function processFolder(path="", parent="") {
+async function buildFolder(path="", parentElement=null) {
     const items = await fetchFolder(path);
+
+    const ul = document.createElement('ul');
+    if(parentElement) parentElement.appendChild(ul);
+    else document.getElementById('fileList').appendChild(ul);
+
     for(const item of items) {
-        if(item.type === "dir") {
-            await processFolder(item.path, parent ? parent + "/" + item.name : item.name);
-        } else if(item.type === "file") {
-            allFiles.push({ folder: parent || "Root", name: item.name, url: item.download_url });
+        const li = document.createElement('li');
+
+        if(item.type === 'dir') {
+            li.innerHTML = `📁 <span class="folder">${item.name}</span>`;
+            ul.appendChild(li);
+            // make collapsible
+            const clickSpan = li.querySelector('.folder');
+            clickSpan.addEventListener('click', function(){
+                const nextUl = li.querySelector('ul');
+                if(nextUl) nextUl.style.display = nextUl.style.display==='none'?'block':'none';
+            });
+            await buildFolder(item.path, li); // recursive
+        } else if(item.type === 'file') {
+            const ext = item.name.split('.').pop().toLowerCase();
+            const icon = fileIcons[ext] || fileIcons['default'];
+            li.innerHTML = `<span class="icon">${icon}</span> <a href="${item.download_url}" target="_blank">${item.name}</a>`;
+            ul.appendChild(li);
         }
     }
 }
 
-function displayFiles(filter="") {
-    const container = document.getElementById("fileList");
-    container.innerHTML = "";
-    // Group files by folder
-    const folders = {};
-    allFiles.forEach(f=>{
-        if(f.name.toLowerCase().includes(filter.toLowerCase())){
-            if(!folders[f.folder]) folders[f.folder] = [];
-            folders[f.folder].push(f);
-        }
-    });
-    for(const folder in folders){
-        const folderDiv = document.createElement("div");
-        folderDiv.classList.add("folder");
-        folderDiv.textContent = `📁 ${folder}`;
-        container.appendChild(folderDiv);
-
-        const ul = document.createElement("ul");
-        folders[folder].forEach(f=>{
-            const ext = f.name.split('.').pop().toLowerCase();
-            const icon = fileIcons[ext] || fileIcons.default;
-            const li = document.createElement("li");
-            li.innerHTML = `<span class="icon">${icon}</span> <a href="${f.url}" target="_blank">${f.name}</a>`;
-            ul.appendChild(li);
-        });
-        container.appendChild(ul);
-    }
+async function init() {
+    document.getElementById('fileList').innerHTML = "";
+    await buildFolder("");
 }
 
 function searchFiles() {
-    const query = document.getElementById("searchBox").value;
-    displayFiles(query);
+    const filter = document.getElementById('searchBox').value.toLowerCase();
+    const allLinks = document.querySelectorAll('#fileList li');
+    allLinks.forEach(li=>{
+        const text = li.textContent.toLowerCase();
+        li.style.display = text.includes(filter)?'list-item':'none';
+    });
 }
 
-// Load all files recursively and then display
-(async function init(){
-    allFiles.length = 0; // clear
-    await processFolder(""); // start at root
-    displayFiles();
-})();
-
+init();
 </script>
+
 </body>
 </html>
