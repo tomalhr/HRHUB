@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR Resources Hub</title>
+    <title>HR Resources Hub - File Explorer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -44,12 +44,30 @@
             background: white;
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(37, 99, 235, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%);
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
         
         h1 {
             font-size: 2.5rem;
             color: var(--primary-dark);
             margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         
         .subtitle {
@@ -85,12 +103,14 @@
             border-radius: 50px;
             font-size: 1rem;
             transition: all 0.3s ease;
+            background: #f8fafc;
         }
         
         .search-container input:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            background: white;
         }
         
         .search-container i {
@@ -199,11 +219,6 @@
             color: var(--gray);
         }
         
-        .last-modified {
-            flex: 1;
-            color: var(--gray);
-        }
-        
         .folder-contents {
             padding-left: 40px;
             display: none;
@@ -255,11 +270,6 @@
             color: var(--gray);
         }
         
-        .file-modified {
-            flex: 1;
-            color: var(--gray);
-        }
-        
         .file-type {
             flex: 1;
             color: var(--gray);
@@ -270,6 +280,27 @@
             padding: 40px;
             color: var(--gray);
             font-style: italic;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(37, 99, 235, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
         footer {
@@ -283,6 +314,15 @@
             display: none;
         }
         
+        .api-notice {
+            background: #fff9db;
+            border-left: 4px solid #fcc419;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
         @media (max-width: 768px) {
             .explorer-header {
                 display: none;
@@ -294,9 +334,7 @@
                 gap: 5px;
             }
             
-            .file-count, .file-size, 
-            .last-modified, .file-modified,
-            .file-type {
+            .file-count, .file-size, .file-type {
                 padding-left: 36px;
                 font-size: 0.85rem;
             }
@@ -323,8 +361,11 @@
 <body>
     <div class="container">
         <header>
-            <h1>HR Resources Hub</h1>
-            <p class="subtitle">Access all your HR documents, templates, and resources in one place. Navigate through folders or search for specific files.</p>
+            <div class="header-bg"></div>
+            <div class="header-content">
+                <h1>HR Resources Hub</h1>
+                <p class="subtitle">Access all your HR documents, templates, and resources in one place. Navigate through folders or search for specific files.</p>
+            </div>
         </header>
         
         <div class="controls">
@@ -344,16 +385,22 @@
             </div>
         </div>
         
+        <div class="api-notice">
+            <p><strong>Note:</strong> This file explorer uses GitHub API to fetch your repository structure. It will automatically show all files and folders in your repository.</p>
+        </div>
+        
         <div class="file-explorer">
             <div class="explorer-header">
                 <div>Name</div>
                 <div>Size</div>
-                <div>Last Modified</div>
                 <div>Type</div>
             </div>
             
             <div id="file-tree">
-                <!-- Folders and files will be generated here -->
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading HR resources from GitHub repository...</p>
+                </div>
             </div>
         </div>
         
@@ -363,166 +410,13 @@
     </div>
 
     <script>
-        // Sample data structure (in a real scenario, you'd generate this server-side)
-        const fileStructure = [
-            {
-                name: "Recruitment",
-                type: "folder",
-                lastModified: "2023-10-15",
-                children: [
-                    {
-                        name: "Job Descriptions",
-                        type: "folder",
-                        lastModified: "2023-10-10",
-                        children: [
-                            { 
-                                name: "Software Engineer JD.docx", 
-                                type: "file", 
-                                size: "145 KB", 
-                                lastModified: "2023-10-05", 
-                                fileType: "Document" 
-                            },
-                            { 
-                                name: "HR Manager JD.pdf", 
-                                type: "file", 
-                                size: "210 KB", 
-                                lastModified: "2023-09-28", 
-                                fileType: "PDF" 
-                            }
-                        ]
-                    },
-                    {
-                        name: "Interview Templates",
-                        type: "folder",
-                        lastModified: "2023-09-20",
-                        children: [
-                            { 
-                                name: "Technical Interview.xlsx", 
-                                type: "file", 
-                                size: "85 KB", 
-                                lastModified: "2023-09-18", 
-                                fileType: "Spreadsheet" 
-                            },
-                            { 
-                                name: "Culture Fit Questions.docx", 
-                                type: "file", 
-                                size: "62 KB", 
-                                lastModified: "2023-08-30", 
-                                fileType: "Document" 
-                            }
-                        ]
-                    },
-                    { 
-                        name: "Recruitment Process.pdf", 
-                        type: "file", 
-                        size: "320 KB", 
-                        lastModified: "2023-10-12", 
-                        fileType: "PDF" 
-                    }
-                ]
-            },
-            {
-                name: "Onboarding",
-                type: "folder",
-                lastModified: "2023-10-18",
-                children: [
-                    { 
-                        name: "New Hire Checklist.xlsx", 
-                        type: "file", 
-                        size: "95 KB", 
-                        lastModified: "2023-10-15", 
-                        fileType: "Spreadsheet" 
-                    },
-                    { 
-                        name: "Welcome Presentation.pptx", 
-                        type: "file", 
-                        size: "2.1 MB", 
-                        lastModified: "2023-10-01", 
-                        fileType: "Presentation" 
-                    }
-                ]
-            },
-            {
-                name: "Employee Relations",
-                type: "folder",
-                lastModified: "2023-09-25",
-                children: [
-                    {
-                        name: "Policies",
-                        type: "folder",
-                        lastModified: "2023-09-20",
-                        children: [
-                            { 
-                                name: "Remote Work Policy.pdf", 
-                                type: "file", 
-                                size: "180 KB", 
-                                lastModified: "2023-09-15", 
-                                fileType: "PDF" 
-                            },
-                            { 
-                                name: "Code of Conduct.docx", 
-                                type: "file", 
-                                size: "120 KB", 
-                                lastModified: "2023-08-22", 
-                                fileType: "Document" 
-                            }
-                        ]
-                    },
-                    { 
-                        name: "Employee Survey Results.xlsx", 
-                        type: "file", 
-                        size: "350 KB", 
-                        lastModified: "2023-10-05", 
-                        fileType: "Spreadsheet" 
-                    }
-                ]
-            },
-            {
-                name: "Compensation",
-                type: "folder",
-                lastModified: "2023-10-20",
-                children: [
-                    { 
-                        name: "Salary Bands.xlsx", 
-                        type: "file", 
-                        size: "110 KB", 
-                        lastModified: "2023-10-18", 
-                        fileType: "Spreadsheet" 
-                    },
-                    { 
-                        name: "Bonus Structure.pdf", 
-                        type: "file", 
-                        size: "150 KB", 
-                        lastModified: "2023-09-30", 
-                        fileType: "PDF" 
-                    }
-                ]
-            },
-            {
-                name: "Training",
-                type: "folder",
-                lastModified: "2023-10-10",
-                children: [
-                    { 
-                        name: "Leadership Development.pptx", 
-                        type: "file", 
-                        size: "3.2 MB", 
-                        lastModified: "2023-10-05", 
-                        fileType: "Presentation" 
-                    },
-                    { 
-                        name: "Compliance Training.pdf", 
-                        type: "file", 
-                        size: "890 KB", 
-                        lastModified: "2023-09-20", 
-                        fileType: "PDF" 
-                    }
-                ]
-            }
-        ];
-
         // Function to render the file tree
         function renderFileTree(data, parentElement, level = 0) {
+            // Clear loading state
+            if (level === 0) {
+                parentElement.innerHTML = '';
+            }
+            
             data.forEach(item => {
                 if (item.type === 'folder') {
                     const folderElement = document.createElement('div');
@@ -536,7 +430,6 @@
                             <span>${item.name}</span>
                         </div>
                         <div class="file-count">${item.children.filter(child => child.type === 'file').length} files</div>
-                        <div class="last-modified">${item.lastModified}</div>
                         <div class="file-type">Folder</div>
                     `;
                     
@@ -553,7 +446,9 @@
                     });
                     
                     // Render children
-                    renderFileTree(item.children, contentsElement, level + 1);
+                    if (item.children && item.children.length > 0) {
+                        renderFileTree(item.children, contentsElement, level + 1);
+                    }
                 } else {
                     const fileElement = document.createElement('div');
                     fileElement.classList.add('file');
@@ -565,15 +460,16 @@
                     else if (item.name.includes('.doc')) fileIcon = 'fa-file-word';
                     else if (item.name.includes('.xls')) fileIcon = 'fa-file-excel';
                     else if (item.name.includes('.ppt')) fileIcon = 'fa-file-powerpoint';
+                    else if (item.name.includes('.zip') || item.name.includes('.rar')) fileIcon = 'fa-file-archive';
+                    else if (item.name.includes('.jpg') || item.name.includes('.png') || item.name.includes('.gif')) fileIcon = 'fa-file-image';
                     
                     fileElement.innerHTML = `
                         <div class="file-name">
                             <i class="fas ${fileIcon}"></i>
-                            <span>${item.name}</span>
+                            <a href="${item.download_url}" target="_blank">${item.name}</a>
                         </div>
-                        <div class="file-size">${item.size}</div>
-                        <div class="file-modified">${item.lastModified}</div>
-                        <div class="file-type">${item.fileType}</div>
+                        <div class="file-size">${item.size ? formatFileSize(item.size) : 'N/A'}</div>
+                        <div class="file-type">${getFileType(item.name)}</div>
                     `;
                     
                     parentElement.appendChild(fileElement);
@@ -612,7 +508,7 @@
                     
                     // Show all parents for files
                     if (item.classList.contains('file')) {
-                        let parentFolder = item.closest('.folder-contents').parentElement;
+                        let parentFolder = item.closest('.folder-contents')?.parentElement;
                         while (parentFolder && parentFolder.classList.contains('folder')) {
                             parentFolder.classList.remove('hidden');
                             parentFolder.classList.add('open');
@@ -641,26 +537,136 @@
             }
         }
 
-        // Initialize the file explorer
-        document.addEventListener('DOMContentLoaded', function() {
-            renderFileTree(fileStructure, document.getElementById('file-tree'));
+        // Format file size
+        function formatFileSize(bytes) {
+            if (typeof bytes !== 'number' || bytes === 0) return '0 Bytes';
             
-            // Add event listeners
-            document.getElementById('expand-all').addEventListener('click', expandAll);
-            document.getElementById('collapse-all').addEventListener('click', collapseAll);
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
             
-            document.getElementById('search-input').addEventListener('input', function(e) {
-                const searchTerm = e.target.value.trim();
-                if (searchTerm === '') {
-                    document.querySelectorAll('.folder, .file').forEach(item => {
-                        item.classList.remove('hidden');
-                    });
-                    const noResults = document.getElementById('no-results');
-                    if (noResults) noResults.remove();
-                } else {
-                    filterFiles(searchTerm);
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        // Get file type from extension
+        function getFileType(filename) {
+            const extension = filename.split('.').pop().toLowerCase();
+            
+            const fileTypes = {
+                'pdf': 'PDF',
+                'doc': 'Word',
+                'docx': 'Word',
+                'xls': 'Excel',
+                'xlsx': 'Excel',
+                'ppt': 'PowerPoint',
+                'pptx': 'PowerPoint',
+                'txt': 'Text',
+                'zip': 'Archive',
+                'rar': 'Archive',
+                'jpg': 'Image',
+                'jpeg': 'Image',
+                'png': 'Image',
+                'gif': 'Image'
+            };
+            
+            return fileTypes[extension] || extension.toUpperCase();
+        }
+
+        // Convert GitHub API response to hierarchical structure
+        function buildHierarchy(contents) {
+            const root = [];
+            const pathMap = {};
+            
+            // First pass: create all items
+            contents.forEach(item => {
+                const pathParts = item.path.split('/');
+                const name = pathParts.pop();
+                const type = item.type === 'dir' ? 'folder' : 'file';
+                
+                const obj = {
+                    name: name,
+                    type: type,
+                    path: item.path,
+                    download_url: item.download_url,
+                    size: item.size || 0
+                };
+                
+                // Add to pathMap
+                pathMap[item.path] = obj;
+                
+                // If it's a root item
+                if (pathParts.length === 0) {
+                    root.push(obj);
                 }
             });
+            
+            // Second pass: build hierarchy
+            contents.forEach(item => {
+                const pathParts = item.path.split('/');
+                if (pathParts.length <= 1) return;
+                
+                const parentPath = pathParts.slice(0, -1).join('/');
+                const parent = pathMap[parentPath];
+                
+                if (parent) {
+                    if (!parent.children) {
+                        parent.children = [];
+                    }
+                    
+                    const child = pathMap[item.path];
+                    if (child) {
+                        parent.children.push(child);
+                    }
+                }
+            });
+            
+            return root;
+        }
+
+        // Initialize the file explorer with GitHub API
+        document.addEventListener('DOMContentLoaded', function() {
+            // GitHub repository details
+            const repoOwner = 'tomalhr';
+            const repoName = 'hrhub';
+            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents?ref=gh-pages`;
+            
+            // Fetch repository contents
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Build hierarchical structure
+                    const fileStructure = buildHierarchy(data);
+                    
+                    // Render the file tree
+                    renderFileTree(fileStructure, document.getElementById('file-tree'));
+                    
+                    // Add event listeners
+                    document.getElementById('expand-all').addEventListener('click', expandAll);
+                    document.getElementById('collapse-all').addEventListener('click', collapseAll);
+                    
+                    document.getElementById('search-input').addEventListener('input', function(e) {
+                        const searchTerm = e.target.value.trim();
+                        if (searchTerm === '') {
+                            document.querySelectorAll('.folder, .file').forEach(item => {
+                                item.classList.remove('hidden');
+                            });
+                            const noResults = document.getElementById('no-results');
+                            if (noResults) noResults.remove();
+                        } else {
+                            filterFiles(searchTerm);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching GitHub repository:', error);
+                    document.getElementById('file-tree').innerHTML = `
+                        <div class="no-results">
+                            <p>Failed to load resources from GitHub.</p>
+                            <p>Please check your repository name and try again.</p>
+                            <p>Error: ${error.message}</p>
+                        </div>
+                    `;
+                });
         });
     </script>
 </body>
