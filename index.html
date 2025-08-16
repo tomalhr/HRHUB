@@ -423,13 +423,16 @@
                     folderElement.classList.add('folder');
                     folderElement.dataset.name = item.name.toLowerCase();
                     
+                    // Calculate file count for this folder
+                    const fileCount = countFilesInFolder(item);
+                    
                     folderElement.innerHTML = `
                         <div class="folder-name" data-action="toggle">
                             <i class="fas fa-folder"></i>
                             <i class="fas fa-folder-open"></i>
                             <span>${item.name}</span>
                         </div>
-                        <div class="file-count">${item.children.filter(child => child.type === 'file').length} files</div>
+                        <div class="file-count">${fileCount} files</div>
                         <div class="file-type">Folder</div>
                     `;
                     
@@ -456,12 +459,13 @@
                     
                     // Get file icon based on file extension
                     let fileIcon = 'fa-file';
-                    if (item.name.includes('.pdf')) fileIcon = 'fa-file-pdf';
-                    else if (item.name.includes('.doc')) fileIcon = 'fa-file-word';
-                    else if (item.name.includes('.xls')) fileIcon = 'fa-file-excel';
-                    else if (item.name.includes('.ppt')) fileIcon = 'fa-file-powerpoint';
-                    else if (item.name.includes('.zip') || item.name.includes('.rar')) fileIcon = 'fa-file-archive';
-                    else if (item.name.includes('.jpg') || item.name.includes('.png') || item.name.includes('.gif')) fileIcon = 'fa-file-image';
+                    if (item.name.endsWith('.pdf')) fileIcon = 'fa-file-pdf';
+                    else if (item.name.endsWith('.doc') || item.name.endsWith('.docx')) fileIcon = 'fa-file-word';
+                    else if (item.name.endsWith('.xls') || item.name.endsWith('.xlsx')) fileIcon = 'fa-file-excel';
+                    else if (item.name.endsWith('.ppt') || item.name.endsWith('.pptx')) fileIcon = 'fa-file-powerpoint';
+                    else if (item.name.endsWith('.zip') || item.name.endsWith('.rar')) fileIcon = 'fa-file-archive';
+                    else if (item.name.endsWith('.jpg') || item.name.endsWith('.png') || item.name.endsWith('.gif')) fileIcon = 'fa-file-image';
+                    else if (item.name.endsWith('.txt')) fileIcon = 'fa-file-alt';
                     
                     fileElement.innerHTML = `
                         <div class="file-name">
@@ -475,6 +479,28 @@
                     parentElement.appendChild(fileElement);
                 }
             });
+        }
+
+        // Count files in a folder (recursively)
+        function countFilesInFolder(folder) {
+            let count = 0;
+            
+            function countFiles(item) {
+                if (item.type === 'file') {
+                    return 1;
+                } else if (item.children) {
+                    return item.children.reduce((acc, child) => acc + countFiles(child), 0);
+                }
+                return 0;
+            }
+            
+            if (folder.children) {
+                folder.children.forEach(child => {
+                    count += countFiles(child);
+                });
+            }
+            
+            return count;
         }
 
         // Function to expand all folders
@@ -563,10 +589,18 @@
                 'txt': 'Text',
                 'zip': 'Archive',
                 'rar': 'Archive',
+                '7z': 'Archive',
                 'jpg': 'Image',
                 'jpeg': 'Image',
                 'png': 'Image',
-                'gif': 'Image'
+                'gif': 'Image',
+                'mp3': 'Audio',
+                'wav': 'Audio',
+                'mp4': 'Video',
+                'mov': 'Video',
+                'html': 'Web Page',
+                'css': 'Stylesheet',
+                'js': 'JavaScript'
             };
             
             return fileTypes[extension] || extension.toUpperCase();
@@ -580,14 +614,14 @@
             // First pass: create all items
             contents.forEach(item => {
                 const pathParts = item.path.split('/');
-                const name = pathParts.pop();
+                const name = pathParts[pathParts.length - 1];
                 const type = item.type === 'dir' ? 'folder' : 'file';
                 
                 const obj = {
                     name: name,
                     type: type,
                     path: item.path,
-                    download_url: item.download_url,
+                    download_url: item.download_url || item.html_url,
                     size: item.size || 0
                 };
                 
@@ -595,7 +629,7 @@
                 pathMap[item.path] = obj;
                 
                 // If it's a root item
-                if (pathParts.length === 0) {
+                if (pathParts.length === 1) {
                     root.push(obj);
                 }
             });
@@ -628,11 +662,17 @@
             // GitHub repository details
             const repoOwner = 'tomalhr';
             const repoName = 'hrhub';
-            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents?ref=gh-pages`;
+            const branch = 'main'; // Use your branch name (gh-pages or main)
+            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents?ref=${branch}`;
             
             // Fetch repository contents
             fetch(apiUrl)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     // Build hierarchical structure
                     const fileStructure = buildHierarchy(data);
