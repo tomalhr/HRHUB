@@ -1,62 +1,709 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bangladesh HR Resource Hub</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #1a5fb4;
+            --primary-dark: #1c5185;
+            --secondary: #e66100;
+            --light: #f8fafc;
+            --dark: #241f31;
+            --gray: #5e5c64;
+            --light-gray: #e2e8f0;
+            --success: #2ec27e;
+            --border: #c0bfbc;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 30px;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffffff 0%, #f6f9ff 100%);
+            border: 1px solid rgba(26, 95, 180, 0.1);
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(26, 95, 180, 0.05) 0%, rgba(230, 97, 0, 0.05) 100%);
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 25px;
+            line-height: 1.7;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .search-container {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 16px 20px 16px 55px;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(26, 95, 180, 0.15);
+            background: white;
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 1.3rem;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+        
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        button.primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        button.primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(26, 95, 180, 0.2);
+        }
+        
+        button.secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        button.secondary:hover {
+            background: var(--light);
+            transform: translateY(-3px);
+        }
+        
+        .file-explorer {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .explorer-header {
+            background: var(--primary);
+            color: white;
+            padding: 18px 28px;
+            display: flex;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .explorer-header div {
+            flex: 1;
+        }
+        
+        .explorer-header div:first-child {
+            flex: 3;
+        }
+        
+        .folder {
+            padding: 18px 28px;
+            border-bottom: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            background: #fafcff;
+        }
+        
+        .folder:hover {
+            background: #f1f6ff;
+        }
+        
+        .folder i {
+            margin-right: 15px;
+            color: var(--secondary);
+            font-size: 1.3rem;
+            width: 28px;
+            text-align: center;
+        }
+        
+        .folder-name {
+            flex: 3;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .file-count {
+            flex: 1;
+            color: var(--gray);
+        }
+        
+        .folder-contents {
+            padding-left: 50px;
+            display: none;
+            background: #fcfdff;
+        }
+        
+        .folder.open > .folder-contents {
+            display: block;
+        }
+        
+        .folder.open > .folder-name i.fa-folder {
+            display: none;
+        }
+        
+        .folder.open > .folder-name i.fa-folder-open {
+            display: inline-block;
+        }
+        
+        .folder-name i.fa-folder-open {
+            display: none;
+        }
+        
+        .file {
+            padding: 15px 28px;
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            transition: background 0.2s ease;
+            background: #ffffff;
+        }
+        
+        .file:hover {
+            background: #f8fbff;
+        }
+        
+        .file-name {
+            flex: 3;
+            display: flex;
+            align-items: center;
+            font-size: 1.05rem;
+        }
+        
+        .file-name i {
+            margin-right: 15px;
+            color: var(--primary);
+            font-size: 1.2rem;
+            width: 28px;
+            text-align: center;
+        }
+        
+        .file-size {
+            flex: 1;
+            color: var(--gray);
+        }
+        
+        .file-type {
+            flex: 1;
+            color: var(--gray);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: var(--gray);
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: var(--gray);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border: 4px solid rgba(26, 95, 180, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--gray);
+            font-size: 1rem;
+            margin-top: 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .api-notice {
+            background: #fff9db;
+            border-left: 4px solid #fcc419;
+            padding: 18px;
+            margin: 25px 0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .explorer-header {
+                display: none;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .folder, .file {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 15px 20px;
+            }
+            
+            .file-count, .file-size, .file-type {
+                padding-left: 43px;
+                font-size: 0.95rem;
+            }
+            
+            .folder-contents {
+                padding-left: 25px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .btn-group {
+                width: 100%;
+            }
+            
+            .btn-group button {
+                flex: 1;
+                justify-content: center;
+                padding: 12px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>📚 Bangladesh HR Resource Hub</h1>
-    <p>Centralized access to government notices, labour laws, HR forms, and compliance guidelines.</p>
-
-    <!-- Search box -->
-    <input type="text" id="searchBox" placeholder="🔍 Search files..." onkeyup="filterFiles()">
-
-    <h2>📂 Available Files</h2>
-    <ul id="file-list">
-        <li>Loading files...</li>
-    </ul>
+    <div class="container">
+        <header>
+            <div class="header-bg"></div>
+            <div class="header-content">
+                <h1><i class="fas fa-book"></i> Bangladesh HR Resource Hub</h1>
+                <p class="subtitle">Centralized access to government notices, labour laws, HR forms, and compliance guidelines. All files are stored in your GitHub repository and updated automatically.</p>
+            </div>
+        </header>
+        
+        <div class="controls">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search for files by name or type...">
+            </div>
+            <div class="btn-group">
+                <button class="primary" id="expand-all">
+                    <i class="fas fa-plus-circle"></i>
+                    Expand All
+                </button>
+                <button class="secondary" id="collapse-all">
+                    <i class="fas fa-minus-circle"></i>
+                    Collapse All
+                </button>
+            </div>
+        </div>
+        
+        <div class="api-notice">
+            <p><strong>Note:</strong> This file explorer shows all files in your GitHub repository. When you add files to your <code>docs</code> folder or subfolders, they will automatically appear here.</p>
+        </div>
+        
+        <div class="file-explorer">
+            <div class="explorer-header">
+                <div>File/Folder Name</div>
+                <div>Size</div>
+                <div>Type</div>
+            </div>
+            
+            <div id="file-tree">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading HR resources from GitHub repository...</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Bangladesh HR Resource Hub &copy; 2023 | All resources are for informational purposes only</p>
+        </footer>
+    </div>
 
     <script>
-        async function fetchFiles() {
-            const repo = "tomalhr/hrhub"; // <-- CHANGE THIS
-            const folder = "docs";
-            const url = `https://api.github.com/repos/${repo}/contents/${folder}`;
+        // Recursive function to fetch repository contents
+        async function fetchRepoContents(path = 'docs') {
+            const repoOwner = 'tomalhr';
+            const repoName = 'hrhub';
+            const branch = 'main'; // Change to 'gh-pages' if needed
+            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}?ref=${branch}`;
+            
             try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error("Folder not found");
-                const files = await response.json();
-
-                let listHTML = "";
-                files.forEach(file => {
-                    let icon = "📄"; // default icon
-                    const ext = file.name.split('.').pop().toLowerCase();
-
-                    if (["pdf"].includes(ext)) icon = "📕";
-                    if (["doc", "docx"].includes(ext)) icon = "📝";
-                    if (["xls", "xlsx", "csv"].includes(ext)) icon = "📊";
-                    if (["jpg", "jpeg", "png", "gif", "webp"].includes(ext)) icon = "🖼️";
-                    if (["zip", "rar"].includes(ext)) icon = "📦";
-
-                    listHTML += `<li><span class="file-item">${icon} <a href="${file.download_url}" target="_blank">${file.name}</a></span></li>`;
-                });
-
-                document.getElementById("file-list").innerHTML = listHTML;
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                
+                const items = [];
+                
+                for (const item of data) {
+                    if (item.type === 'dir') {
+                        // Recursively fetch directory contents
+                        const children = await fetchRepoContents(item.path);
+                        items.push({
+                            name: item.name,
+                            type: 'folder',
+                            path: item.path,
+                            children: children
+                        });
+                    } else {
+                        items.push({
+                            name: item.name,
+                            type: 'file',
+                            path: item.path,
+                            download_url: item.download_url,
+                            size: item.size
+                        });
+                    }
+                }
+                
+                return items;
             } catch (error) {
-                document.getElementById("file-list").innerHTML = "<li>No files found in /docs/ folder.</li>";
+                console.error('Error fetching directory:', path, error);
+                return [];
             }
         }
 
-        function filterFiles() {
-            const searchValue = document.getElementById("searchBox").value.toLowerCase();
-            const items = document.querySelectorAll("#file-list li");
-            items.forEach(item => {
-                const text = item.textContent.toLowerCase();
-                item.style.display = text.includes(searchValue) ? "" : "none";
+        // Function to render the file tree
+        function renderFileTree(data, parentElement, level = 0) {
+            // Clear loading state
+            if (level === 0) {
+                parentElement.innerHTML = '';
+            }
+            
+            data.forEach(item => {
+                if (item.type === 'folder') {
+                    const folderElement = document.createElement('div');
+                    folderElement.classList.add('folder');
+                    folderElement.dataset.name = item.name.toLowerCase();
+                    
+                    // Calculate file count for this folder
+                    const fileCount = countFilesInFolder(item);
+                    
+                    folderElement.innerHTML = `
+                        <div class="folder-name" data-action="toggle">
+                            <i class="fas fa-folder"></i>
+                            <i class="fas fa-folder-open"></i>
+                            <span>${item.name}</span>
+                        </div>
+                        <div class="file-count">${fileCount} ${fileCount === 1 ? 'file' : 'files'}</div>
+                        <div class="file-type">Folder</div>
+                    `;
+                    
+                    const contentsElement = document.createElement('div');
+                    contentsElement.classList.add('folder-contents');
+                    
+                    folderElement.appendChild(contentsElement);
+                    parentElement.appendChild(folderElement);
+                    
+                    // Add click event to toggle folder
+                    folderElement.querySelector('[data-action="toggle"]').addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        folderElement.classList.toggle('open');
+                    });
+                    
+                    // Render children
+                    if (item.children && item.children.length > 0) {
+                        renderFileTree(item.children, contentsElement, level + 1);
+                    }
+                } else {
+                    const fileElement = document.createElement('div');
+                    fileElement.classList.add('file');
+                    fileElement.dataset.name = item.name.toLowerCase();
+                    
+                    // Get file icon based on file extension
+                    let fileIcon = 'fa-file';
+                    const ext = item.name.split('.').pop().toLowerCase();
+                    
+                    if (ext === 'pdf') fileIcon = 'fa-file-pdf';
+                    else if (['doc', 'docx'].includes(ext)) fileIcon = 'fa-file-word';
+                    else if (['xls', 'xlsx', 'csv'].includes(ext)) fileIcon = 'fa-file-excel';
+                    else if (['ppt', 'pptx'].includes(ext)) fileIcon = 'fa-file-powerpoint';
+                    else if (['zip', 'rar', '7z'].includes(ext)) fileIcon = 'fa-file-archive';
+                    else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) fileIcon = 'fa-file-image';
+                    else if (ext === 'txt') fileIcon = 'fa-file-alt';
+                    
+                    fileElement.innerHTML = `
+                        <div class="file-name">
+                            <i class="fas ${fileIcon}"></i>
+                            <a href="${item.download_url}" target="_blank">${item.name}</a>
+                        </div>
+                        <div class="file-size">${item.size ? formatFileSize(item.size) : 'N/A'}</div>
+                        <div class="file-type">${getFileType(ext)}</div>
+                    `;
+                    
+                    parentElement.appendChild(fileElement);
+                }
             });
         }
 
-        fetchFiles();
+        // Count files in a folder (recursively)
+        function countFilesInFolder(folder) {
+            let count = 0;
+            
+            function countFiles(item) {
+                if (item.type === 'file') {
+                    return 1;
+                } else if (item.children) {
+                    return item.children.reduce((acc, child) => acc + countFiles(child), 0);
+                }
+                return 0;
+            }
+            
+            if (folder.children) {
+                folder.children.forEach(child => {
+                    count += countFiles(child);
+                });
+            }
+            
+            return count;
+        }
+
+        // Function to expand all folders
+        function expandAll() {
+            document.querySelectorAll('.folder').forEach(folder => {
+                folder.classList.add('open');
+            });
+        }
+
+        // Function to collapse all folders
+        function collapseAll() {
+            document.querySelectorAll('.folder').forEach(folder => {
+                folder.classList.remove('open');
+            });
+        }
+
+        // Function to filter files and folders
+        function filterFiles() {
+            const searchTerm = document.getElementById('search-input').value.trim().toLowerCase();
+            const allItems = document.querySelectorAll('.folder, .file');
+            let hasResults = false;
+            
+            if (searchTerm === '') {
+                allItems.forEach(item => item.classList.remove('hidden'));
+                const noResults = document.getElementById('no-results');
+                if (noResults) noResults.remove();
+                return;
+            }
+            
+            allItems.forEach(item => {
+                const itemName = item.dataset.name;
+                if (itemName.includes(searchTerm)) {
+                    item.classList.remove('hidden');
+                    
+                    // If it's a folder, expand it
+                    if (item.classList.contains('folder')) {
+                        item.classList.add('open');
+                    }
+                    
+                    // Show all parents for files
+                    if (item.classList.contains('file')) {
+                        let parentFolder = item.closest('.folder-contents')?.parentElement;
+                        while (parentFolder && parentFolder.classList.contains('folder')) {
+                            parentFolder.classList.remove('hidden');
+                            parentFolder.classList.add('open');
+                            parentFolder = parentFolder.closest('.folder-contents')?.parentElement;
+                        }
+                    }
+                    
+                    hasResults = true;
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+            
+            // Show no results message if needed
+            const noResults = document.getElementById('no-results');
+            if (!hasResults) {
+                if (!noResults) {
+                    const noResultsElement = document.createElement('div');
+                    noResultsElement.id = 'no-results';
+                    noResultsElement.classList.add('no-results');
+                    noResultsElement.textContent = 'No files or folders match your search.';
+                    document.getElementById('file-tree').appendChild(noResultsElement);
+                }
+            } else if (noResults) {
+                noResults.remove();
+            }
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (typeof bytes !== 'number' || bytes === 0) return '0 Bytes';
+            
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        // Get file type from extension
+        function getFileType(extension) {
+            const fileTypes = {
+                'pdf': 'PDF Document',
+                'doc': 'Word Document',
+                'docx': 'Word Document',
+                'xls': 'Excel Spreadsheet',
+                'xlsx': 'Excel Spreadsheet',
+                'csv': 'CSV File',
+                'ppt': 'PowerPoint',
+                'pptx': 'PowerPoint',
+                'txt': 'Text File',
+                'zip': 'ZIP Archive',
+                'rar': 'RAR Archive',
+                '7z': '7-Zip Archive',
+                'jpg': 'JPEG Image',
+                'jpeg': 'JPEG Image',
+                'png': 'PNG Image',
+                'gif': 'GIF Image',
+                'webp': 'WebP Image'
+            };
+            
+            return fileTypes[extension] || extension.toUpperCase() + ' File';
+        }
+
+        // Initialize the file explorer
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Fetch and render repository contents
+            try {
+                const fileStructure = await fetchRepoContents();
+                renderFileTree(fileStructure, document.getElementById('file-tree'));
+                
+                // Add event listeners
+                document.getElementById('expand-all').addEventListener('click', expandAll);
+                document.getElementById('collapse-all').addEventListener('click', collapseAll);
+                
+                document.getElementById('search-input').addEventListener('input', filterFiles);
+            } catch (error) {
+                console.error('Error loading repository:', error);
+                document.getElementById('file-tree').innerHTML = `
+                    <div class="no-results">
+                        <p>Failed to load resources from GitHub.</p>
+                        <p>Please check your repository name and try again.</p>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        });
     </script>
 </body>
 </html>
