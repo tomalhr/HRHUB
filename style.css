@@ -1,33 +1,89 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    background: #f8f9fa;
-    color: #333;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
-h1 {
-    color: #004085;
+
+header {
+  background: #005f99;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-ul {
-    list-style: none;
-    padding: 0;
+
+header h1 {
+  margin: 0;
+  font-size: 20px;
 }
-li {
-    padding: 8px 0;
-    font-size: 16px;
+
+.controls {
+  display: flex;
+  gap: 10px;
 }
-a {
-    color: #007bff;
-    text-decoration: none;
+
+.controls button {
+  padding: 5px 10px;
+  border: none;
+  background: #007acc;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
-a:hover {
-    text-decoration: underline;
+
+.controls button:hover {
+  background: #005f99;
 }
-#searchBox {
-    padding: 8px;
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+
+.controls input {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.file-tree {
+  width: 30%;
+  max-width: 350px;
+  min-width: 250px;
+  border-right: 1px solid #ddd;
+  padding: 10px;
+  overflow-y: auto;
+  background: #f9f9f9;
+}
+
+.file-tree ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.file-tree li {
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.file-tree li.folder::before {
+  content: "📂 ";
+}
+
+.file-tree li.folder.collapsed::before {
+  content: "📁 ";
+}
+
+.file-tree li.file::before {
+  content: "📄 ";
+}
+
+.file-viewer {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
 }
