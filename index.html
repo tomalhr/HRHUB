@@ -31,8 +31,9 @@
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             color: var(--dark);
             min-height: 100vh;
-            padding: 20px;
-            line-height: 1.6;
+            padding: 16px;
+            line-height: 1.5;
+            font-size: 15px; /* Reduced base font size */
         }
         
         .container {
@@ -42,11 +43,11 @@
         
         header {
             text-align: center;
-            padding: 40px 30px;
-            margin-bottom: 30px;
+            padding: 30px 20px;
+            margin-bottom: 24px;
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            border-radius: 14px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, #ffffff 0%, #f6f9ff 100%);
@@ -69,42 +70,43 @@
         }
         
         h1 {
-            font-size: 2.8rem;
+            font-size: 2.2rem; /* Reduced from 2.8rem */
             color: var(--primary-dark);
-            margin-bottom: 15px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 12px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
         }
         
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem; /* Reduced from 1.2rem */
             color: var(--gray);
             max-width: 700px;
-            margin: 0 auto 25px;
-            line-height: 1.7;
+            margin: 0 auto 20px;
+            line-height: 1.5;
         }
         
         .profile-section {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin-top: 20px;
+            gap: 20px;
+            margin-top: 18px;
             flex-wrap: wrap;
         }
         
         .profile-link {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
+            gap: 7px;
+            padding: 10px 18px;
             border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.09);
+            font-size: 0.95rem; /* Reduced font size */
         }
         
         .linkedin {
@@ -118,64 +120,64 @@
         }
         
         .profile-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
         }
         
         .controls {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
             justify-content: center;
-            margin-bottom: 30px;
-            padding: 25px;
+            margin-bottom: 24px;
+            padding: 20px;
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.04);
+            border-radius: 14px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.04);
             border: 1px solid var(--light-gray);
         }
         
         .search-container {
             flex: 1;
-            min-width: 300px;
-            max-width: 600px;
+            min-width: 280px;
+            max-width: 550px;
             position: relative;
         }
         
         .search-container input {
             width: 100%;
-            padding: 16px 20px 16px 55px;
+            padding: 14px 18px 14px 48px;
             border: 2px solid var(--border);
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 0.98rem; /* Reduced font size */
             transition: all 0.3s ease;
             background: #f8fafc;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
         }
         
         .search-container input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(26, 95, 180, 0.15);
+            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.12);
             background: white;
         }
         
         .search-container i {
             position: absolute;
-            left: 22px;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--gray);
-            font-size: 1.3rem;
+            font-size: 1.1rem; /* Reduced icon size */
         }
         
         .btn-group {
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
         
         button {
-            padding: 14px 28px;
+            padding: 12px 22px;
             border: none;
             border-radius: 50px;
             font-weight: 600;
@@ -183,9 +185,9 @@
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            gap: 8px;
+            font-size: 0.92rem; /* Reduced font size */
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
         }
         
         button.primary {
@@ -195,8 +197,8 @@
         
         button.primary:hover {
             background: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(26, 95, 180, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(26, 95, 180, 0.18);
         }
         
         button.secondary {
@@ -207,25 +209,25 @@
         
         button.secondary:hover {
             background: var(--light);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
         .file-explorer {
             background: white;
-            border-radius: 16px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-            margin-bottom: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            margin-bottom: 32px;
             border: 1px solid var(--light-gray);
         }
         
         .explorer-header {
             background: var(--primary);
             color: white;
-            padding: 18px 28px;
+            padding: 16px 24px;
             display: flex;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 0.98rem; /* Reduced font size */
         }
         
         .explorer-header div {
@@ -237,7 +239,7 @@
         }
         
         .folder {
-            padding: 18px 28px;
+            padding: 15px 24px;
             border-bottom: 1px solid var(--light-gray);
             cursor: pointer;
             transition: background 0.2s ease;
@@ -251,10 +253,10 @@
         }
         
         .folder i {
-            margin-right: 15px;
+            margin-right: 12px;
             color: var(--secondary);
-            font-size: 1.3rem;
-            width: 28px;
+            font-size: 1.1rem; /* Reduced icon size */
+            width: 24px;
             text-align: center;
         }
         
@@ -263,16 +265,17 @@
             font-weight: 500;
             display: flex;
             align-items: center;
-            font-size: 1.1rem;
+            font-size: 0.98rem; /* Reduced font size */
         }
         
         .file-count {
             flex: 1;
             color: var(--gray);
+            font-size: 0.92rem; /* Reduced font size */
         }
         
         .folder-contents {
-            padding-left: 50px;
+            padding-left: 40px;
             display: none;
             background: #fcfdff;
         }
@@ -294,7 +297,7 @@
         }
         
         .file {
-            padding: 15px 28px;
+            padding: 13px 24px;
             display: flex;
             border-bottom: 1px solid var(--light-gray);
             transition: background 0.2s ease;
@@ -309,50 +312,52 @@
             flex: 3;
             display: flex;
             align-items: center;
-            font-size: 1.05rem;
+            font-size: 0.95rem; /* Reduced font size */
         }
         
         .file-name i {
-            margin-right: 15px;
+            margin-right: 12px;
             color: var(--primary);
-            font-size: 1.2rem;
-            width: 28px;
+            font-size: 1.05rem; /* Reduced icon size */
+            width: 24px;
             text-align: center;
         }
         
         .file-size {
             flex: 1;
             color: var(--gray);
+            font-size: 0.92rem; /* Reduced font size */
         }
         
         .file-type {
             flex: 1;
             color: var(--gray);
+            font-size: 0.92rem; /* Reduced font size */
         }
         
         .no-results {
             text-align: center;
-            padding: 50px;
+            padding: 40px;
             color: var(--gray);
             font-style: italic;
-            font-size: 1.1rem;
+            font-size: 1rem; /* Reduced font size */
         }
         
         .loading {
             text-align: center;
-            padding: 50px;
+            padding: 40px;
             color: var(--gray);
         }
         
         .loading-spinner {
             display: inline-block;
-            width: 35px;
-            height: 35px;
-            border: 4px solid rgba(26, 95, 180, 0.2);
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(26, 95, 180, 0.2);
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s ease-in-out infinite;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         
         @keyframes spin {
@@ -361,13 +366,13 @@
         
         footer {
             text-align: center;
-            padding: 25px;
+            padding: 22px;
             color: var(--gray);
-            font-size: 1rem;
-            margin-top: 20px;
+            font-size: 0.92rem; /* Reduced font size */
+            margin-top: 18px;
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 14px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
         }
         
         .hidden {
@@ -377,120 +382,78 @@
         .api-notice {
             background: #fff9db;
             border-left: 4px solid #fcc419;
-            padding: 18px;
-            margin: 25px 0;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 16px;
+            margin: 22px 0;
+            border-radius: 7px;
+            font-size: 0.92rem; /* Reduced font size */
         }
         
-        .contact-container {
+        .stats-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
+            gap: 18px;
+            margin: 18px 0;
             flex-wrap: wrap;
         }
         
-        .contact-card {
+        .stat-card {
             background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 500px;
+            border-radius: 11px;
+            padding: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
             text-align: center;
+            min-width: 160px;
         }
         
-        .contact-card h3 {
-            color: var(--primary-dark);
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+        .stat-number {
+            font-size: 2rem; /* Reduced from 2.5rem */
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
         }
         
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            background: #f8fafc;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .contact-item:hover {
-            background: #f1f6ff;
-            transform: translateY(-2px);
-        }
-        
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-        
-        .linkedin-icon {
-            background: var(--linkedin);
-            color: white;
-        }
-        
-        .email-icon {
-            background: var(--email);
-            color: white;
-        }
-        
-        .contact-text {
-            flex: 1;
-            text-align: left;
-        }
-        
-        .contact-text h4 {
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-        
-        .contact-text p {
+        .stat-label {
             color: var(--gray);
-            font-size: 0.95rem;
+            font-size: 0.85rem; /* Reduced font size */
         }
         
+        /* Media queries for better mobile responsiveness */
         @media (max-width: 768px) {
+            body {
+                padding: 12px;
+                font-size: 14px; /* Slightly smaller base font size on mobile */
+            }
+            
             .explorer-header {
                 display: none;
             }
             
             h1 {
-                font-size: 2.2rem;
+                font-size: 1.8rem; /* Smaller on mobile */
+                flex-direction: column;
+                gap: 8px;
             }
             
             .folder, .file {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 8px;
-                padding: 15px 20px;
+                gap: 6px;
+                padding: 12px 18px;
             }
             
             .file-count, .file-size, .file-type {
-                padding-left: 43px;
-                font-size: 0.95rem;
+                padding-left: 36px;
+                font-size: 0.88rem; /* Smaller on mobile */
             }
             
             .folder-contents {
-                padding-left: 25px;
+                padding-left: 20px;
             }
             
             .controls {
                 flex-direction: column;
-                padding: 20px;
+                padding: 18px;
+                gap: 14px;
             }
             
             .btn-group {
@@ -500,16 +463,55 @@
             .btn-group button {
                 flex: 1;
                 justify-content: center;
-                padding: 12px 20px;
+                padding: 10px 18px;
+                font-size: 0.9rem; /* Smaller on mobile */
             }
             
-            .contact-container {
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 14px;
+            }
+            
+            .stat-card {
+                width: 100%;
+                padding: 15px;
+            }
+            
+            .profile-section {
                 flex-direction: column;
                 align-items: center;
             }
             
-            .contact-card {
+            .profile-link {
                 width: 100%;
+                justify-content: center;
+            }
+            
+            .search-container {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem; /* Even smaller on very small screens */
+            }
+            
+            .subtitle {
+                font-size: 0.92rem; /* Smaller on very small screens */
+            }
+            
+            .stat-number {
+                font-size: 1.8rem; /* Smaller on very small screens */
+            }
+            
+            button {
+                padding: 10px 16px;
+            }
+            
+            .file-name, .folder-name {
+                font-size: 0.92rem; /* Smaller on very small screens */
             }
         }
     </style>
@@ -532,6 +534,21 @@
                 </div>
             </div>
         </header>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="total-files">0</div>
+                <div class="stat-label">Total Files</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-folders">0</div>
+                <div class="stat-label">Folders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-size">0</div>
+                <div class="stat-label">Total Size</div>
+            </div>
+        </div>
         
         <div class="controls">
             <div class="search-container">
@@ -569,35 +586,6 @@
             </div>
         </div>
         
-        <div class="contact-container">
-            <div class="contact-card">
-                <h3><i class="fas fa-user-circle"></i> Contact Information</h3>
-                <div class="contact-info">
-                    <a href="https://www.linkedin.com/in/awal" target="_blank" class="contact-item">
-                        <div class="contact-icon linkedin-icon">
-                            <i class="fab fa-linkedin-in"></i>
-                        </div>
-                        <div class="contact-text">
-                            <h4>LinkedIn Profile</h4>
-                            <p>Connect with me professionally</p>
-                        </div>
-                        <i class="fas fa-external-link-alt"></i>
-                    </a>
-                    
-                    <a href="mailto:onemailid@gmail.com" class="contact-item">
-                        <div class="contact-icon email-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contact-text">
-                            <h4>Email Address</h4>
-                            <p>onemailid@gmail.com</p>
-                        </div>
-                        <i class="fas fa-external-link-alt"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
         <footer>
             <p>Bangladesh HR Resource Hub &copy; 2025 | All resources are for educational purposes only</p>
             <p>Created by Mohd. Abdul Awal (Tomal) | Experienced HR Professional</p>
@@ -605,57 +593,148 @@
     </div>
 
     <script>
-        // Recursive function to fetch repository contents
-        async function fetchRepoContents(path = 'docs') {
-            const repoOwner = 'tomalhr';
-            const repoName = 'hrhub';
-            const branch = 'main'; // Change to 'gh-pages' if needed
-            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}?ref=${branch}`;
-            
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
-                
-                const items = [];
-                
-                for (const item of data) {
-                    if (item.type === 'dir') {
-                        // Recursively fetch directory contents
-                        const children = await fetchRepoContents(item.path);
-                        items.push({
-                            name: item.name,
-                            type: 'folder',
-                            path: item.path,
-                            children: children
-                        });
-                    } else {
-                        items.push({
-                            name: item.name,
-                            type: 'file',
-                            path: item.path,
-                            download_url: item.download_url,
-                            size: item.size
-                        });
+        // Sample data structure (in a real scenario, you'd generate this server-side)
+        const fileStructure = [
+            {
+                name: "Labour Laws",
+                type: "folder",
+                children: [
+                    {
+                        name: "Bangladesh Labour Act 2006",
+                        type: "folder",
+                        children: [
+                            { 
+                                name: "Bangladesh_Labour_Act_2006_English.pdf", 
+                                type: "file", 
+                                size: 2500000, 
+                                fileType: "PDF" 
+                            },
+                            { 
+                                name: "Bangladesh_Labour_Act_2006_Bengali.pdf", 
+                                type: "file", 
+                                size: 2700000, 
+                                fileType: "PDF" 
+                            }
+                        ]
+                    },
+                    {
+                        name: "EPZ Laws",
+                        type: "folder",
+                        children: [
+                            { 
+                                name: "EPZ_Labour_Act_2019.pdf", 
+                                type: "file", 
+                                size: 1800000, 
+                                fileType: "PDF" 
+                            },
+                            { 
+                                name: "EPZ_Workers_Welfare_Association_Industral_Relations_Act_2010.pdf", 
+                                type: "file", 
+                                size: 1500000, 
+                                fileType: "PDF" 
+                            }
+                        ]
+                    },
+                    { 
+                        name: "Minimum_Wage_Chart_2023.pdf", 
+                        type: "file", 
+                        size: 950000, 
+                        fileType: "PDF" 
                     }
-                }
-                
-                return items;
-            } catch (error) {
-                console.error('Error fetching directory:', path, error);
-                return [];
+                ]
+            },
+            {
+                name: "HR Forms",
+                type: "folder",
+                children: [
+                    { 
+                        name: "Employment_Application_Form.docx", 
+                        type: "file", 
+                        size: 45000, 
+                        fileType: "Document" 
+                    },
+                    { 
+                        name: "Leave_Application_Form.docx", 
+                        type: "file", 
+                        size: 42000, 
+                        fileType: "Document" 
+                    },
+                    { 
+                        name: "Performance_Appraisal_Form.xlsx", 
+                        type: "file", 
+                        size: 38000, 
+                        fileType: "Spreadsheet" 
+                    }
+                ]
+            },
+            {
+                name: "Compliance",
+                type: "folder",
+                children: [
+                    {
+                        name: "Factory Compliance",
+                        type: "folder",
+                        children: [
+                            { 
+                                name: "Factory_Rules_1979.pdf", 
+                                type: "file", 
+                                size: 1200000, 
+                                fileType: "PDF" 
+                            },
+                            { 
+                        name: "Workplace_Safety_Checklist.xlsx", 
+                        type: "file", 
+                        size: 55000, 
+                        fileType: "Spreadsheet" 
+                            }
+                        ]
+                    },
+                    { 
+                        name: "OSHA_Compliance_Guidelines.pdf", 
+                        type: "file", 
+                        size: 1750000, 
+                        fileType: "PDF" 
+                    }
+                ]
+            },
+            {
+                name: "Training Materials",
+                type: "folder",
+                children: [
+                    { 
+                        name: "Sexual_Harassment_Prevention_Training.pptx", 
+                        type: "file", 
+                        size: 3500000, 
+                        fileType: "Presentation" 
+                    },
+                    { 
+                        name: "Workplace_Safety_Training_Manual.pdf", 
+                        type: "file", 
+                        size: 2800000, 
+                        fileType: "PDF" 
+                    }
+                ]
             }
-        }
+        ];
+
+        // Global variables for statistics
+        let totalFiles = 0;
+        let totalFolders = 0;
+        let totalSize = 0;
 
         // Function to render the file tree
         function renderFileTree(data, parentElement, level = 0) {
             // Clear loading state
             if (level === 0) {
                 parentElement.innerHTML = '';
+                totalFiles = 0;
+                totalFolders = 0;
+                totalSize = 0;
             }
             
             data.forEach(item => {
                 if (item.type === 'folder') {
+                    totalFolders++;
                     const folderElement = document.createElement('div');
                     folderElement.classList.add('folder');
                     folderElement.dataset.name = item.name.toLowerCase();
@@ -690,6 +769,8 @@
                         renderFileTree(item.children, contentsElement, level + 1);
                     }
                 } else {
+                    totalFiles++;
+                    totalSize += item.size || 0;
                     const fileElement = document.createElement('div');
                     fileElement.classList.add('file');
                     fileElement.dataset.name = item.name.toLowerCase();
@@ -709,7 +790,7 @@
                     fileElement.innerHTML = `
                         <div class="file-name">
                             <i class="fas ${fileIcon}"></i>
-                            <a href="${item.download_url}" target="_blank">${item.name}</a>
+                            <a href="#" class="file-link">${item.name}</a>
                         </div>
                         <div class="file-size">${item.size ? formatFileSize(item.size) : 'N/A'}</div>
                         <div class="file-type">${getFileType(ext)}</div>
@@ -718,6 +799,13 @@
                     parentElement.appendChild(fileElement);
                 }
             });
+            
+            // Update statistics
+            if (level === 0) {
+                document.getElementById('total-files').textContent = totalFiles;
+                document.getElementById('total-folders').textContent = totalFolders;
+                document.getElementById('total-size').textContent = formatFileSize(totalSize);
+            }
         }
 
         // Count files in a folder (recursively)
@@ -847,27 +935,23 @@
         }
 
         // Initialize the file explorer
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Fetch and render repository contents
-            try {
-                const fileStructure = await fetchRepoContents();
-                renderFileTree(fileStructure, document.getElementById('file-tree'));
-                
-                // Add event listeners
-                document.getElementById('expand-all').addEventListener('click', expandAll);
-                document.getElementById('collapse-all').addEventListener('click', collapseAll);
-                
-                document.getElementById('search-input').addEventListener('input', filterFiles);
-            } catch (error) {
-                console.error('Error loading repository:', error);
-                document.getElementById('file-tree').innerHTML = `
-                    <div class="no-results">
-                        <p>Failed to load resources from GitHub.</p>
-                        <p>Please check your repository name and try again.</p>
-                        <p>Error: ${error.message}</p>
-                    </div>
-                `;
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render the file tree with sample data
+            renderFileTree(fileStructure, document.getElementById('file-tree'));
+            
+            // Add event listeners
+            document.getElementById('expand-all').addEventListener('click', expandAll);
+            document.getElementById('collapse-all').addEventListener('click', collapseAll);
+            
+            document.getElementById('search-input').addEventListener('input', filterFiles);
+            
+            // Simulate file download links
+            document.querySelectorAll('.file-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('In a real implementation, this would download: ' + this.textContent);
+                });
+            });
         });
     </script>
 </body>
