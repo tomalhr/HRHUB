@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bangladesh HR Resource Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    :root{
+      --primary:#1a5fb4; --primary-dark:#1c5185; --secondary:#e66100; --light:#f8fafc; --dark:#241f31;
+      --gray:#5e5c64; --light-gray:#e2e8f0; --success:#2ec27e; --border:#c0bfbc; --linkedin:#0a66c2; --email:#d93025;
+    }
+
+    body{ background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%); color:var(--dark); min-height:100vh; padding:16px; line-height:1.6; font-size:15px;}
+    .container{ max-width:1200px; margin:0 auto; }
+
+    header{
+      text-align:center; padding:30px 20px; margin-bottom:20px; background:white; border-radius:16px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08); position:relative; overflow:hidden;
+      background:linear-gradient(135deg, #fff 0%, #f6f9ff 100%); border:1px solid rgba(26,95,180,.1);
+    }
+    .header-bg{ position:absolute; inset:0; background:linear-gradient(120deg, rgba(26,95,180,.05) 0%, rgba(230,97,0,.05) 100%); z-index:0;}
+    .header-content{ position:relative; z-index:2; }
+
+    h1{ font-size:2.1rem; color:var(--primary-dark); margin-bottom:12px; text-shadow:0 2px 4px rgba(0,0,0,.05); display:flex; align-items:center; justify-content:center; gap:12px;}
+    .subtitle{ font-size:1rem; color:var(--gray); max-width:700px; margin:0 auto 18px; line-height:1.7;}
+
+    .profile-section{ display:flex; justify-content:center; gap:14px; margin-top:14px; flex-wrap:wrap; }
+    .profile-link{ display:flex; align-items:center; gap:8px; padding:10px 16px; border-radius:50px; font-weight:600; text-decoration:none; transition:.2s; box-shadow:0 2px 8px rgba(0,0,0,.1); font-size:.95rem;}
+    .linkedin{ background:var(--linkedin); color:#fff; }
+    .email{ background:var(--email); color:#fff; }
+    .profile-link:hover{ transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.15); }
+
+    .controls{
+      display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-bottom:20px; padding:18px; background:white;
+      border-radius:16px; box-shadow:0 6px 15px rgba(0,0,0,.04); border:1px solid var(--light-gray);
+    }
+    .search-container{ flex:1; min-width:260px; max-width:600px; position:relative; }
+    .search-container input{
+      width:100%; padding:12px 16px 12px 46px; border:2px solid var(--border); border-radius:50px; font-size:1rem;
+      transition:.2s; background:#f8fafc; box-shadow:0 2px 8px rgba(0,0,0,.05);
+    }
+    .search-container input:focus{ outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(26,95,180,.15); background:#fff; }
+    .search-container i{ position:absolute; left:18px; top:50%; transform:translateY(-50%); color:var(--gray); font-size:1.1rem; }
+
+    .btn-group{ display:flex; gap:10px; }
+    button{ padding:10px 18px; border:none; border-radius:50px; font-weight:600; cursor:pointer; transition:.15s; display:flex; align-items:center; gap:8px; font-size:.95rem; box-shadow:0 4px 10px rgba(0,0,0,.08); }
+    button.primary{ background:var(--primary); color:#fff; }
+    button.primary:hover{ background:var(--primary-dark); transform:translateY(-2px); box-shadow:0 6px 15px rgba(26,95,180,.2);}
+    button.secondary{ background:#fff; color:var(--primary); border:2px solid var(--primary); }
+    button.secondary:hover{ background:var(--light); transform:translateY(-2px); }
+
+    .file-explorer{ background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,.08); margin-bottom:24px; border:1px solid var(--light-gray); }
+    .explorer-header{ background:var(--primary); color:#fff; padding:14px 20px; display:flex; font-weight:600; font-size:1rem; }
+    .explorer-header div{ flex:1; }
+    .explorer-header div:first-child{ flex:3; }
+
+    .folder{ padding:14px 20px; border-bottom:1px solid var(--light-gray); cursor:pointer; transition:background .15s; display:flex; align-items:center; background:#fafcff; }
+    .folder:hover{ background:#f1f6ff; }
+    .folder i{ margin-right:12px; color:var(--secondary); font-size:1.1rem; width:24px; text-align:center; }
+
+    .folder-name{ flex:3; font-weight:500; display:flex; align-items:center; gap:8px; font-size:1rem; min-width:0; }
+    .folder-name span{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    .file-count{ flex:1; color:var(--gray); }
+    .file-type{ flex:1; color:var(--gray); }
+
+    .folder-contents{ padding-left:42px; display:none; background:#fcfdff; }
+    .folder.open > .folder-contents{ display:block; }
+    .folder.open > .folder-name i.fa-folder{ display:none; }
+    .folder.open > .folder-name i.fa-folder-open{ display:inline-block; }
+    .folder-name i.fa-folder-open{ display:none; }
+
+    .file{ padding:12px 20px; display:flex; border-bottom:1px solid var(--light-gray); transition:background .15s; background:#fff; }
+    .file:hover{ background:#f8fbff; }
+
+    .file-name{ flex:3; display:flex; align-items:center; gap:10px; font-size:1rem; min-width:0; }
+    .file-name a{ color:var(--dark); text-decoration:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .file-name a:hover{ color:var(--primary); text-decoration:underline; }
+    .file-name i{ color:var(--primary); font-size:1.05rem; width:24px; text-align:center; }
+
+    .file-size{ flex:1; color:var(--gray); }
+    .no-results{ text-align:center; padding:36px; color:var(--gray); font-style:italic; font-size:1rem; }
+    .loading{ text-align:center; padding:48px; color:var(--gray); }
+    .loading-spinner{ display:inline-block; width:32px; height:32px; border:4px solid rgba(26,95,180,.2); border-radius:50%; border-top-color:var(--primary); animation:spin 1s linear infinite; margin-bottom:14px;}
+    @keyframes spin{ to{ transform:rotate(360deg);} }
+
+    .api-notice{ background:#fff9db; border-left:4px solid #fcc419; padding:14px; margin:18px 0; border-radius:8px; font-size:.95rem; }
+    footer{ text-align:center; padding:18px; color:var(--gray); font-size:.95rem; margin-top:14px; background:white; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,.05); }
+
+    .hidden{ display:none; }
+
+    /* Mobile tweaks */
+    @media (max-width:768px){
+      .explorer-header{ display:none; }
+      h1{ font-size:1.6rem; }
+      .subtitle{ font-size:.95rem; }
+      .folder, .file{ flex-direction:column; align-items:flex-start; gap:6px; padding:12px 16px; }
+      .file-count, .file-size, .file-type{ padding-left:34px; font-size:.95rem; }
+      .folder-contents{ padding-left:26px; }
+      .controls{ flex-direction:column; padding:16px; }
+      .btn-group{ width:100%; }
+      .btn-group button{ flex:1; justify-content:center; padding:10px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-bg"></div>
+      <div class="header-content">
+        <h1><i class="fas fa-book"></i> Bangladesh HR Resource Hub</h1>
+        <p class="subtitle">Centralized access to Government notices, labour laws, HR forms, and compliance guidelines.</p>
+        <div class="profile-section">
+          <a href="https://www.linkedin.com/in/awal" target="_blank" class="profile-link linkedin">
+            <i class="fab fa-linkedin-in"></i> Connect on LinkedIn
+          </a>
+          <a href="mailto:onemailid@gmail.com" class="profile-link email">
+            <i class="fas fa-envelope"></i> Contact via Email
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div class="controls">
+      <div class="search-container">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Search for files by name or type...">
+      </div>
+      <div class="btn-group">
+        <button class="primary" id="expand-all"><i class="fas fa-plus-circle"></i> Expand All</button>
+        <button class="secondary" id="collapse-all"><i class="fas fa-minus-circle"></i> Collapse All</button>
+      </div>
+    </div>
+
+    <div class="api-notice">
+      <p><strong>Note:</strong> If you encounter any difficulties in downloading please contact me <code>via</code> direct message on LinkedIn or email.</p>
+    </div>
+
+    <div class="file-explorer">
+      <div class="explorer-header">
+        <div>File/Folder Name</div>
+        <div>Size</div>
+        <div>Type</div>
+      </div>
+      <div id="file-tree">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <p>Loading HR resources from GitHub repository...</p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Bangladesh HR Resource Hub &copy; 2025 | All resources are for educational purposes only</p>
+      <p>Created by Mohd. Abdul Awal (Tomal) | Experienced HR Professional</p>
+    </footer>
+  </div>
+
+  <script>
+    // ---------- CONFIG ----------
+    const repoOwner = 'tomalhr';
+    const repoName  = 'hrhub';
+    const branch    = 'main';   // if you switch, update here
+    const rootPath  = 'docs';   // everything inside /docs will be listed
+    // ----------------------------
+
+    async function fetchRepoContents(path = rootPath) {
+      // GitHub API endpoint for a folder
+      const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}?ref=${branch}`;
+      try {
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error(`GitHub API error ${res.status}`);
+        let items = await res.json();
+
+        // Sort: folders first, then files; alphabetical (case-insensitive)
+        items.sort((a,b)=>{
+          if (a.type !== b.type) return a.type === 'dir' ? -1 : 1;
+          return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+        });
+
+        const out = [];
+        for (const item of items) {
+          if (item.type === 'dir') {
+            const children = await fetchRepoContents(item.path);
+            out.push({ name:item.name, type:'folder', path:item.path, children });
+          } else {
+            out.push({
+              name:item.name, type:'file', path:item.path,
+              download_url:item.download_url, size:item.size
+            });
+          }
+        }
+        return out;
+      } catch (e) {
+        console.error('Fetch error at path:', path, e);
+        return [];
+      }
+    }
+
+    function formatFileSize(bytes){
+      if (typeof bytes !== 'number' || bytes <= 0) return '—';
+      const k = 1024, sizes = ['Bytes','KB','MB','GB','TB'];
+      const i = Math.floor(Math.log(bytes)/Math.log(k));
+      return (bytes/Math.pow(k,i)).toFixed(i ? 1 : 0) + ' ' + sizes[i];
+    }
+
+    function getFileType(ext){
+      const map = {
+        pdf:'PDF Document', doc:'Word Document', docx:'Word Document',
+        xls:'Excel Spreadsheet', xlsx:'Excel Spreadsheet', csv:'CSV File',
+        ppt:'PowerPoint', pptx:'PowerPoint', txt:'Text File',
+        zip:'ZIP Archive', rar:'RAR Archive', '7z':'7-Zip Archive',
+        jpg:'JPEG Image', jpeg:'JPEG Image', png:'PNG Image', gif:'GIF Image', webp:'WebP Image'
+      };
+      return map[ext] || (ext ? ext.toUpperCase()+' File' : 'File');
+    }
+
+    function countFilesInFolder(folder){
+      let count = 0;
+      (function walk(node){
+        if (!node) return;
+        if (node.type === 'file') count++;
+        if (node.children) node.children.forEach(walk);
+      })(folder);
+      return count;
+    }
+
+    function renderFileTree(data, parent, level=0){
+      if (level === 0) parent.innerHTML = '';
+
+      data.forEach(item=>{
+        if (item.type === 'folder'){
+          const folderEl = document.createElement('div');
+          folderEl.className = 'folder';
+          folderEl.dataset.name = item.name.toLowerCase();
+
+          const fileCount = countFilesInFolder(item);
+
+          folderEl.innerHTML = `
+            <div class="folder-name" data-action="toggle">
+              <i class="fas fa-folder"></i>
+              <i class="fas fa-folder-open"></i>
+              <span title="${item.name}">${item.name}</span>
+            </div>
+            <div class="file-count">${fileCount} ${fileCount===1?'file':'files'}</div>
+            <div class="file-type">Folder</div>
+          `;
+
+          const contents = document.createElement('div');
+          contents.className = 'folder-contents';
+          folderEl.appendChild(contents);
+          parent.appendChild(folderEl);
+
+          folderEl.querySelector('[data-action="toggle"]').addEventListener('click', e=>{
+            e.stopPropagation();
+            folderEl.classList.toggle('open');
+          });
+
+          if (item.children && item.children.length){
+            renderFileTree(item.children, contents, level+1);
+          }
+        } else {
+          const fileEl = document.createElement('div');
+          fileEl.className = 'file';
+          const ext = item.name.includes('.') ? item.name.split('.').pop().toLowerCase() : '';
+          let icon = 'fa-file';
+          if (ext==='pdf') icon='fa-file-pdf';
+          else if (['doc','docx'].includes(ext)) icon='fa-file-word';
+          else if (['xls','xlsx','csv'].includes(ext)) icon='fa-file-excel';
+          else if (['ppt','pptx'].includes(ext)) icon='fa-file-powerpoint';
+          else if (['zip','rar','7z'].includes(ext)) icon='fa-file-archive';
+          else if (['jpg','jpeg','png','gif','webp'].includes(ext)) icon='fa-file-image';
+          else if (ext==='txt') icon='fa-file-lines';
+
+          fileEl.dataset.name = (item.name + ' ' + ext).toLowerCase();
+          fileEl.innerHTML = `
+            <div class="file-name">
+              <i class="fas ${icon}"></i>
+              <a href="${item.download_url}" target="_blank" title="${item.name}">${item.name}</a>
+            </div>
+            <div class="file-size">${formatFileSize(item.size)}</div>
+            <div class="file-type">${getFileType(ext)}</div>
+          `;
+          parent.appendChild(fileEl);
+        }
+      });
+    }
+
+    function expandAll(){ document.querySelectorAll('.folder').forEach(f=>f.classList.add('open')); }
+    function collapseAll(){ document.querySelectorAll('.folder').forEach(f=>f.classList.remove('open')); }
+
+    function filterFiles(){
+      const term = document.getElementById('search-input').value.trim().toLowerCase();
+      const items = document.querySelectorAll('.folder, .file');
+      let any = false;
+
+      if (term === ''){
+        items.forEach(i=>i.classList.remove('hidden'));
+        const no = document.getElementById('no-results'); if (no) no.remove();
+        return;
+      }
+
+      items.forEach(item=>{
+        const name = item.dataset.name || '';
+        if (name.includes(term)){
+          item.classList.remove('hidden');
+          if (item.classList.contains('folder')) item.classList.add('open');
+          if (item.classList.contains('file')){
+            let p = item.closest('.folder-contents')?.parentElement;
+            while (p && p.classList.contains('folder')){
+              p.classList.remove('hidden'); p.classList.add('open');
+              p = p.closest('.folder-contents')?.parentElement;
+            }
+          }
+          any = true;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      const no = document.getElementById('no-results');
+      if (!any){
+        if (!no){
+          const msg = document.createElement('div');
+          msg.id='no-results'; msg.className='no-results';
+          msg.textContent='No files or folders match your search.';
+          document.getElementById('file-tree').appendChild(msg);
+        }
+      } else if (no){ no.remove(); }
+    }
+
+    document.addEventListener('DOMContentLoaded', async ()=>{
+      try{
+        const structure = await fetchRepoContents();
+        renderFileTree(structure, document.getElementById('file-tree'));
+        document.getElementById('expand-all').addEventListener('click', expandAll);
+        document.getElementById('collapse-all').addEventListener('click', collapseAll);
+        document.getElementById('search-input').addEventListener('input', filterFiles);
+      }catch(err){
+        console.error(err);
+        document.getElementById('file-tree').innerHTML =
+          `<div class="no-results">
+              <p>Failed to load resources from GitHub.</p>
+              <p>Please check repository settings and try again.</p>
+              <p>Error: ${err.message}</p>
+            </div>`;
+      }
+    });
+  </script>
+</body>
+</html>
